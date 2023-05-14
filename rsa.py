@@ -11,7 +11,7 @@ def generate_prime_number(bits):
             return n
 
 
-def generate_rsa_keys(bit_length):
+def generate_rsa_keys(bit_length: int):
     p = generate_prime_number(bit_length // 2)
     q = generate_prime_number(bit_length // 2)
 
@@ -31,21 +31,31 @@ def generate_rsa_keys(bit_length):
     return (e, n), (d, n)
 
 
-def encrypt_rsa(msg, pub_key):
-    e, n = pub_key
-    if msg < 0 or msg >= n:
-        raise ValueError("Message is out of range for encryption.")
-    return pow(msg, e, n)
+def encrypt_rsa(value: int, public_key: tuple[int, int]):
+    e, n = public_key
+    if value < 0 or value >= n:
+        raise ValueError("Túl nagy szám a titkosításhoz.")
+    return pow(value, e, n)
 
 
-def decrypt_rsa(cipher_text, priv_key):
-    d, n = priv_key
-    if cipher_text < 0 or cipher_text >= n:
-        raise ValueError("Ciphertext is out of range for decryption.")
-    return pow(cipher_text, d, n)
+def encrypt_rsa_text(text: str, public_key: tuple[int, int]):
+    char_values = [ord(c) for c in text]
+    return [encrypt_rsa(c, public_key) for c in char_values]
 
 
-def validate_rsa_keys(pub_key, priv_key):
-    e, n = pub_key
-    d, m = priv_key
+def decrypt_rsa(cipher_value: int, private_key: tuple[int, int]):
+    d, n = private_key
+    if cipher_value < 0 or cipher_value >= n:
+        raise ValueError("Túl nagy szám a visszafejtéshez.")
+    return pow(cipher_value, d, n)
+
+
+def decrypt_rsa_text(ciphertext: list[int], private_key: tuple[int, int]):
+    char_array = [chr(c) for c in [decrypt_rsa(c, private_key) for c in ciphertext]]
+    return "".join(char_array)
+
+
+def validate_rsa_keys(public_key: tuple[int, int], private_key: tuple[int, int]):
+    e, n = public_key
+    d, m = private_key
     return (e * d) % m == 1
