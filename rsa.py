@@ -49,22 +49,3 @@ def validate_rsa_keys(pub_key, priv_key):
     e, n = pub_key
     d, m = priv_key
     return (e * d) % m == 1
-
-
-# Example usage:
-
-# Generate RSA keys
-public_key, private_key = generate_rsa_keys(bit_length=1024)
-
-# Validate RSA keys
-valid = validate_rsa_keys(public_key, private_key)
-print("RSA keys are valid:", valid)
-
-# Encrypt and decrypt a message
-message = 42
-ciphertext = encrypt_rsa(message, public_key)
-decrypted_message = decrypt_rsa(ciphertext, private_key)
-
-print("Original message:", message)
-print("Ciphertext:", ciphertext)
-print("Decrypted message:", decrypted_message)
