@@ -7,7 +7,7 @@ if __name__ == "__main__":
     print("kibővített euklideszi algoritmus")
     for (a, b) in [(211, 45), (2340, 113), (1491, 23)]:
         (d, x, y) = extended_gcd(a, b)
-        print(f"{d} = {a}*{x} + {b}*{-y}")
+        print(f"{d} = {a}*{x} + {b}*{y}")
 
     print("\ngyorshatványozás")
     for (alap, exp, mod) in [(9, 22, 79), (129, 97, 171), (23, 209, 211)]:
