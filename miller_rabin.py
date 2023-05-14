@@ -1,23 +1,22 @@
 import random
 
 
-def is_prime(n: int, k: int = 2):
-    if n < 2:
+def is_probable_prime(n: int, k: int = 2):
+    if n <= 1:
         return False
-    if n == 2:
+    if n <= 3:
         return True
     if n % 2 == 0:
         return False
 
-    d = n - 1
-    r = 0
-    while d % 2 == 0:
-        d //= 2
+    r, s = 0, n - 1
+    while s % 2 == 0:
         r += 1
+        s //= 2
 
     for _ in range(k):
-        a = random.randint(2, n - 2)
-        x = pow(a, d, n)
+        a = random.randint(2, n - 1)
+        x = pow(a, s, n)
         if x == 1 or x == n - 1:
             continue
         for _ in range(r - 1):
@@ -26,5 +25,4 @@ def is_prime(n: int, k: int = 2):
                 break
         else:
             return False
-
     return True
