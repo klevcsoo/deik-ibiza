@@ -1,7 +1,7 @@
 from euklidesz import extended_gcd
 from gyorshatvany import gyorshatvany
 from miller_rabin import is_probable_prime
-from rsa import generate_rsa_keys, encrypt_rsa_text, decrypt_rsa_text, sign_text, verify_signature_text
+import rsa
 
 if __name__ == "__main__":
     print("kibővített euklideszi algoritmus")
@@ -19,19 +19,19 @@ if __name__ == "__main__":
 
     print("\nrsa (szöveg)")
     message = input("kérek egy üzenetet: ")
-    public_key, private_key = generate_rsa_keys(bit_length=1024)
+    public_key, private_key = rsa.generate_rsa_keys(bit_length=1024)
     print(f"publikus kulcs (e, n): {public_key}")
     print(f"privát kulcs (d, n): {private_key}")
 
-    signature = sign_text(message, private_key)
+    signature = rsa.sign_text(message, private_key)
     print(f"aláírás: {signature}")
 
-    ciphertext = encrypt_rsa_text(message, public_key)
+    ciphertext = rsa.encrypt_text(message, public_key)
     print(f"titkosított üzenet: {ciphertext}")
-    decrypted_message = decrypt_rsa_text(ciphertext, private_key)
+    decrypted_message = rsa.decrypt_text(ciphertext, private_key)
     print(f"feloldott üzenet: {decrypted_message}")
 
-    if verify_signature_text(decrypted_message, signature, public_key):
+    if rsa.verify_signature_text(decrypted_message, signature, public_key):
         print("aláírás egyezik, üzenet hiteles")
     else:
         print("aláírás nem egyezik, üzenet NEM hiteles")
