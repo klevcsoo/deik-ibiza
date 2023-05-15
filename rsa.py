@@ -58,7 +58,7 @@ def decrypt_rsa_text(ciphertext: list[int], private_key: tuple[int, int]):
 def sign(value: int, private_key: tuple[int, int]):
     d, n = private_key
     if value < 0 or value >= n:
-        raise ValueError("Message is out of range for signing.")
+        raise ValueError("Túl nagy szám az aláíráshoz.")
     return pow(value, d, n)
 
 
