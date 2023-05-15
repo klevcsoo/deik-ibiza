@@ -55,7 +55,26 @@ def decrypt_rsa_text(ciphertext: list[int], private_key: tuple[int, int]):
     return "".join(char_array)
 
 
-def validate_rsa_keys(public_key: tuple[int, int], private_key: tuple[int, int]):
+def sign(value: int, private_key: tuple[int, int]):
+    d, n = private_key
+    if value < 0 or value >= n:
+        raise ValueError("Message is out of range for signing.")
+    return pow(value, d, n)
+
+
+def sign_text(message: str, private_key: tuple[int, int]):
+    char_values = [ord(c) for c in message]
+    return [sign(c, private_key) for c in char_values]
+
+
+def verify_signature(value: int, signature: int, public_key: tuple[int, int]):
     e, n = public_key
-    d, m = private_key
-    return (e * d) % m == 1
+    decrypted = pow(signature, e, n)
+    return decrypted == value
+
+
+def verify_signature_text(message: str, signature: list[int], public_key: tuple[int, int]):
+    for i, c in enumerate(message):
+        if not verify_signature(ord(c), signature[i], public_key):
+            return False
+    return True
